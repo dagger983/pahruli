@@ -4,7 +4,6 @@ import Footer from "../Footer/Footer";
 const Contact = () => {
   return (
     <>
-      {" "}
       <div className="contact-us-container">
         <div className="form-container">
           <h2 className="contact-heading">Contact Us</h2>

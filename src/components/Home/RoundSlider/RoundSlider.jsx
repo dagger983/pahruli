@@ -35,7 +35,6 @@ const RoundSlider = () => {
     );
   };
 
-  // Slider settings
   const settings = {
     dots: true,
     infinite: false,
