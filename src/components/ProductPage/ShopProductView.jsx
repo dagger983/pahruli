@@ -43,9 +43,15 @@ const ShopProductView = ({ addToCart }) => {
   const [calendarVisible, setCalendarVisible] = useState(true);
   const navigate = useNavigate();
 
+  const isNotSunday = (date) => {
+    const day = date.getDay();
+    return day !== 0; // 0 is Sunday
+  };
+
   const handleButtonClick = (weight) => {
     setActiveWeight(weight);
   };
+
   useEffect(() => {
     const fetchProduct = async () => {
       try {
@@ -210,166 +216,156 @@ const ShopProductView = ({ addToCart }) => {
         </button>
         {product ? (
           <>
-           
-              <div className="shop-product-view">
-                <div className="product-container">
-                  <div className="product-details">
-                    <img
-                      src={product.img}
-                      alt={product.name}
-                      className="shop-product-image"
-                    />
+            <div className="shop-product-view">
+              <div className="product-container">
+                <div className="product-details">
+                  <img
+                    src={product.img}
+                    alt={product.name}
+                    className="shop-product-image"
+                  />
+                </div>
+                <div className="product-info">
+                  <h2>{product.name}</h2>
+                  <p>
+                    Rs: ₹
+                    {
+                      product.variants.find(
+                        (v) => v.weight === selectedWeight
+                      )?.price
+                    }
+                    /-
+                  </p>
+                  <div className="quantity-section">
+                    <p>Quantity</p>
+                    <button onClick={() => handleQuantityChange(-1)}>-</button>
+                    <input type="text" value={quantity} readOnly />
+                    <button
+                      style={{ marginLeft: "10px" }}
+                      onClick={() => handleQuantityChange(1)}
+                    >
+                      +
+                    </button>
                   </div>
-                  <div className="product-info">
-                    <h2>{product.name}</h2>
-                    <p>
-                      Rs: ₹
-                      {
-                        product.variants.find(
-                          (v) => v.weight === selectedWeight
-                        )?.price
-                      }
-                      /-
-                    </p>
-                    <div className="quantity-section">
-                      <p>Quantity</p>
+                  <div className="weight-section">
+                    <p>Select Weight</p>
+                    {product.variants.map((variant) => (
                       <button
-                        onClick={() => handleQuantityChange(-1)}
-                      >
-                        -
-                      </button>
-                      <input type="text" value={quantity} readOnly />
-                      <button
-                        style={{
-                          marginLeft: "10px",
-                        }}
-                        onClick={() => handleQuantityChange(1)}
-                      >
-                        +
-                      </button>
-                    </div>
-                    <div className="weight-section">
-                      <p>Select Weight</p>
-                      {product.variants.map((variant) => (
-                        <button
-                          key={variant.weight}
-                          onClick={() => setSelectedWeight(variant.weight)}
-                          className={
-                            selectedWeight === variant.weight ? "active" : ""
-                          }
-                        >
-                          {variant.weight}
-                        </button>
-                      ))}
-                    </div>
-                    <div className="subscription-section">
-                      <p>Subscription</p>
-                      <button
-                        onClick={() => handleSubscriptionTypeChange("weekly")}
-                        className={`subscription-button ${
-                          subscriptionType === "weekly" ? "active" : ""
-                        } additional-classname`}
-                      >
-                        Weekly
-                      </button>
-                      <button
-                        onClick={() => handleSubscriptionTypeChange("monthly")}
-                        className={`subscription-button ${
-                          subscriptionType === "monthly" ? "active" : ""
-                        } additional-classname`}
-                      >
-                        Monthly
-                      </button>
-                      <button
-                        onClick={() =>
-                          handleSubscriptionTypeChange("customize")
+                        key={variant.weight}
+                        onClick={() => setSelectedWeight(variant.weight)}
+                        className={
+                          selectedWeight === variant.weight ? "active" : ""
                         }
-                        className={`subscription-button ${
-                          subscriptionType === "customize" ? "active" : ""
-                        } additional-classname`}
                       >
-                        Customize
+                        {variant.weight}
                       </button>
+                    ))}
+                  </div>
+                  <div className="subscription-section">
+                    <p>Subscription</p>
+                    <button
+                      onClick={() => handleSubscriptionTypeChange("weekly")}
+                      className={`subscription-button ${
+                        subscriptionType === "weekly" ? "active" : ""
+                      } additional-classname`}
+                    >
+                      Weekly
+                    </button>
+                    <button
+                      onClick={() => handleSubscriptionTypeChange("monthly")}
+                      className={`subscription-button ${
+                        subscriptionType === "monthly" ? "active" : ""
+                      } additional-classname`}
+                    >
+                      Monthly
+                    </button>
+                    <button
+                      onClick={() =>
+                        handleSubscriptionTypeChange("customize")
+                      }
+                      className={`subscription-button ${
+                        subscriptionType === "customize" ? "active" : ""
+                      } additional-classname`}
+                    >
+                      Customize
+                    </button>
 
-                      {(subscriptionType === "monthly" ||
-                        subscriptionType === "customize") &&
-                        calendarVisible && (
-                          <div className="date-selection">
-                            <p>Select Subscription Dates:</p>
-                            <DatePicker
-                              selected={subscriptionDates[0]}
-                              onChange={handleDateRangeChange}
-                              startDate={subscriptionDates[0]}
-                              endDate={subscriptionDates[1]}
-                              selectsRange
-                              inline
-                              dateFormat="dd/MM/yyyy"
-                              minDate={minDate}
-                              showYearDropdown={
-                                subscriptionType === "customize"
-                              }
-                              scrollableYearDropdown={
-                                subscriptionType === "customize"
-                              }
-                            />
-                          </div>
-                        )}
-
-                      {subscriptionType === "weekly" && (
-                        <div className="day-selection">
-                          <p>Select Days of the Week:</p>
-                          {[
-                            "Monday",
-                            "Tuesday",
-                            "Wednesday",
-                            "Thursday",
-                            "Friday",
-                            "Saturday",
-                          ].map((day) => (
-                            <label key={day} style={{cursor:"pointer"}}>
-                              <input
-                                style={{ marginRight: "10px",cursor:"pointer" }}
-                                type="checkbox"
-                                checked={selectedDays.includes(day)}
-                                onChange={() => toggleDaySelection(day)}
-                              />
-                              {day}
-                            </label>
-                          ))}
+                    {(subscriptionType === "monthly" ||
+                      subscriptionType === "customize") &&
+                      calendarVisible && (
+                        <div className="date-selection">
+                          <p>Select Subscription Dates:</p>
+                          <DatePicker
+                            selected={subscriptionDates[0]}
+                            onChange={handleDateRangeChange}
+                            startDate={subscriptionDates[0]}
+                            endDate={subscriptionDates[1]}
+                            selectsRange
+                            inline
+                            dateFormat="dd/MM/yyyy"
+                            minDate={minDate}
+                            showYearDropdown={subscriptionType === "customize"}
+                            scrollableYearDropdown={subscriptionType === "customize"}
+                            filterDate={isNotSunday} // Add this prop to disable Sundays
+                          />
                         </div>
                       )}
-                    </div>
-                    {submitButtonVisible && (
-                      <button
-                        onClick={handleSubmitSubscription}
-                        className="submit-button"
-                      >
-                        Submit
-                      </button>
+
+                    {subscriptionType === "weekly" && (
+                      <div className="day-selection">
+                        <p>Select Days of the Week:</p>
+                        {[
+                          "Monday",
+                          "Tuesday",
+                          "Wednesday",
+                          "Thursday",
+                          "Friday",
+                          "Saturday",
+                        ].map((day) => (
+                          <label key={day} style={{ cursor: "pointer" }}>
+                            <input
+                              style={{ marginRight: "10px", cursor: "pointer" }}
+                              type="checkbox"
+                              checked={selectedDays.includes(day)}
+                              onChange={() => toggleDaySelection(day)}
+                            />
+                            {day}
+                          </label>
+                        ))}
+                      </div>
                     )}
-                    <div className="buttons">
-                      <button
-                        onClick={handleAddToCart}
-                        className="add-to-cart-button"
-                      >
-                        Add to Cart
-                      </button>
-                      <button onClick={handleBuyNow} className="buy-now-button">
-                        Buy Now
-                      </button>
-                    </div>
+                  </div>
+                  {submitButtonVisible && (
+                    <button
+                      onClick={handleSubmitSubscription}
+                      className="submit-button"
+                    >
+                      Submit
+                    </button>
+                  )}
+                  <div className="buttons">
+                    <button
+                      onClick={handleAddToCart}
+                      className="add-to-cart-button"
+                    >
+                      Add to Cart
+                    </button>
+                    <button onClick={handleBuyNow} className="buy-now-button">
+                      Buy Now
+                    </button>
                   </div>
                 </div>
               </div>
-              <div>
-                <h2 className="similar-head">Similar Products</h2>
-              </div>
-              {similarProducts.length > 0 && (
-                <div className="similar-products">
-                  <div className="similar-products-list">
-                    {similarProducts.map((item) => (
-                      <div key={item.id} className="similar-product-card">
-                         <Link to={`/shop-product/${item.id}`} target="_blank">
+            </div>
+            <div>
+              <h2 className="similar-head">Similar Products</h2>
+            </div>
+            {similarProducts.length > 0 && (
+              <div className="similar-products">
+                <div className="similar-products-list">
+                  {similarProducts.map((item) => (
+                    <div key={item.id} className="similar-product-card">
+                      <Link to={`/shop-product/${item.id}`} target="_blank">
                         <img
                           src={item.img}
                           alt={item.name}
@@ -386,12 +382,12 @@ const ShopProductView = ({ addToCart }) => {
                           }
                           /-
                         </p>
-                        </Link>
-                      </div>
-                    ))}
-                  </div>
+                      </Link>
+                    </div>
+                  ))}
                 </div>
-              )}
+              </div>
+            )}
           </>
         ) : (
           <p>Product not found</p>

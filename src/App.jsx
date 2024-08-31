@@ -1,70 +1,85 @@
-import React, { useState, useEffect } from "react";
-import { Routes, Route } from "react-router-dom";
-import { RotatingLines } from "react-loader-spinner";
-import PCNavbar from "./components/Home/Navbar/PCNavbar";
-import MobNavbar from "./components/Home/Navbar/MobNavbar";
-import Welcome from "./components/Home/Welcome/Welcome";
-import ShopNow from "./components/Home/ShopNow-ScrollEffect/ShopNow";
-import PCBanner from "./components/Home/BannerAndAnimation/Banner";
-import MobBanner from "./components/Home/BannerAndAnimation/MobBanner";
-import Footer from "./components/Footer/Footer";
-import RoundSlider from "./components/Home/RoundSlider/RoundSlider";
-import Products from "./components/Products/Products";
-import About from "./components/About Us/About";
-import Contact from "./components/Contact/Contact";
-import Cart from "./components/Cart/Cart";
-import MobCart from "./components/Cart/MobCart";
-import ShopProductView from "./components/ProductPage/ShopProductView";
-import Login from "./components/Login&Register/Login";
-import Register from "./components/Login&Register/Register"
+import React, { useState, useEffect } from 'react';
+import { Routes, Route } from 'react-router-dom';
+import { RotatingLines } from 'react-loader-spinner';
+import PCNavbar from './components/Home/Navbar/PCNavbar';
+import MobNavbar from './components/Home/Navbar/MobNavbar';
+import Welcome from './components/Home/Welcome/Welcome';
+import ShopNow from './components/Home/ShopNow-ScrollEffect/ShopNow';
+import PCBanner from './components/Home/BannerAndAnimation/Banner';
+import MobBanner from './components/Home/BannerAndAnimation/MobBanner';
+import Footer from './components/Footer/Footer';
+import RoundSlider from './components/Home/RoundSlider/RoundSlider';
+import Products from './components/Products/Products';
+import About from './components/About Us/About';
+import Contact from './components/Contact/Contact';
+import Cart from './components/Cart/Cart';
+import MobCart from './components/Cart/MobCart';
+import ShopProductView from './components/ProductPage/ShopProductView';
+import Login from './components/Login&Register/Login';
+import Register from './components/Login&Register/Register';
 
 function App() {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [cartItems, setCartItems] = useState([]);
-  const [isLoading, setIsLoading] = useState(true); 
+  const [isLoading, setIsLoading] = useState(true);
   const [username, setUsername] = useState(null);
+
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
     };
 
-    window.addEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
     handleResize();
-    return () => window.removeEventListener("resize", handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   useEffect(() => {
-    const savedCart = JSON.parse(localStorage.getItem("cartItems")) || [];
+    const savedCart = JSON.parse(localStorage.getItem('cartItems')) || [];
     setCartItems(savedCart);
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("cartItems", JSON.stringify(cartItems));
+    localStorage.setItem('cartItems', JSON.stringify(cartItems));
   }, [cartItems]);
 
   useEffect(() => {
-  
     setTimeout(() => {
       setIsLoading(false);
-    }, 1000); 
+    }, 1000);
   }, []);
 
   const openCart = () => setIsCartOpen(true);
   const closeCart = () => setIsCartOpen(false);
 
-  const addToCart = (item) => {
+  const addToCart = (product, quantity, selectedWeight, subscriptionType, subscriptionDetails) => {
     setCartItems((prevItems) => {
-      const existingItem = prevItems.find((i) => i.id === item.id);
+      const existingItem = prevItems.find((i) => i.id === product.id && i.selectedWeight === selectedWeight);
       if (existingItem) {
         return prevItems.map((i) =>
-          i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i
+          i.id === product.id && i.selectedWeight === selectedWeight
+            ? { ...i, quantity: i.quantity + quantity }
+            : i
         );
       }
-      return [...prevItems, { ...item, quantity: 1 }];
+      return [
+        ...prevItems,
+        {
+          ...product,
+          quantity,
+          selectedWeight,
+          subscriptionType,
+          subscriptionDetails
+        }
+      ];
     });
 
-    isMobile ? alert(`Product "${item.name}" added successfully!`) : openCart();
+    if (isMobile) {
+      alert(`Product "${product.name}" added successfully!`);
+    } else {
+      openCart();
+    }
   };
 
   const removeFromCart = (itemId) => {
@@ -79,7 +94,7 @@ function App() {
     );
   };
 
-  const renderNavbar = () => (isMobile ? <MobNavbar /> : <PCNavbar  onCartClick={openCart} />);
+  const renderNavbar = () => (isMobile ? <MobNavbar /> : <PCNavbar onCartClick={openCart} />);
 
   if (isLoading) {
     return (

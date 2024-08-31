@@ -8,7 +8,6 @@ const Cart = ({ isOpen, cartItems, removeFromCart, updateQuantity, onClose }) =>
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Fetch the products data from the JSON file
     fetch('/products.json')
       .then((response) => {
         if (!response.ok) {
@@ -42,7 +41,7 @@ const Cart = ({ isOpen, cartItems, removeFromCart, updateQuantity, onClose }) =>
   const getCartSummary = () => {
     const subtotal = cartItems.reduce((sum, item) => {
       const product = products.find((product) => product.id === item.id);
-      return sum + (product ? product.price * item.quantity : 0);
+      return sum + (product ? product.variants.find((v) => v.weight === item.selectedWeight)?.price * item.quantity : 0);
     }, 0);
     return subtotal.toFixed(2);
   };
@@ -69,12 +68,13 @@ const Cart = ({ isOpen, cartItems, removeFromCart, updateQuantity, onClose }) =>
         ) : (
           cartItems.map((item) => {
             const product = products.find((product) => product.id === item.id);
-            if (!product) return null; // Handle case where product is not found
+            if (!product) return null;
             return (
               <div key={item.id} className="cart-item" role="listitem">
                 <img src={product.img} alt={product.name} className="item-image" />
                 <div className="item-details">
                   <p style={{ fontWeight: '400', marginTop: '10px' }}>{product.name}</p>
+                  <p style={{ fontWeight: '400', marginTop: '10px' }}>Weight: {item.selectedWeight}</p>
                   <div className="quantity-selector">
                     <button
                       onClick={() => handleQuantityChange(item, -1)}
@@ -90,7 +90,9 @@ const Cart = ({ isOpen, cartItems, removeFromCart, updateQuantity, onClose }) =>
                       +
                     </button>
                   </div>
-                  <p style={{ fontWeight: '400', marginTop: '10px' }}>Price: ₹{product.price}</p>
+                  <p style={{ fontWeight: '400', marginTop: '10px' }}>
+                    Price: ₹{product.variants.find((v) => v.weight === item.selectedWeight)?.price}
+                  </p>
                 </div>
                 <FaTrash
                   style={{ color: 'red' }}
@@ -104,7 +106,6 @@ const Cart = ({ isOpen, cartItems, removeFromCart, updateQuantity, onClose }) =>
         )}
         <div className="cart-summary">
           <p>Subtotal: ₹{getCartSummary()}</p>
-         
         </div>
       </div>
     </div>
