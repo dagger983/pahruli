@@ -1,0 +1,36 @@
+.footer-main{
+    display:flex;
+    justify-content: space-evenly;
+    text-align: center;
+    padding:50px;
+    background-color: #F4F3EF;
+}
+.social-link{
+    background-color: #BADA55;
+    height:150px;
+    padding:30px;
+    color: white;
+}
+.social-link2 img{
+    margin-top:20px;
+    margin-right:20px;
+    cursor: pointer;
+}
+.footer-snd{
+   text-align: center;
+   background-color: #BADA55;
+   color:white;
+   padding:20px;
+}
+
+@media screen and (max-width:768px) {
+    .footer-main{
+        flex-direction: column;
+    }
+    .footer-main div{
+        margin-bottom:30px;
+    } 
+    .social-link2 img{
+        height:50px;
+    }
+}

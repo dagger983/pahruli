@@ -1,0 +1,80 @@
+.welcome-page {
+    background-image: url("/Welcome-Bg-min.png");
+    height: 60vh;
+    width: 100%;
+    background-size: cover;  
+    background-repeat: no-repeat;
+    background-position: center;
+    position: relative;
+    bottom: 30px;
+    padding: 30px;
+    color: white;
+}
+
+.welcome-page::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1; 
+}
+
+.welcome-page .content {
+    position: relative;
+    z-index: 2;  
+    margin: 110px;
+}
+
+.welcome-page h1 {
+    font-size: 48px; 
+    margin-bottom: 16px; 
+}
+
+.welcome-page p {
+    font-size: 19px;
+    margin-bottom: 32px; 
+}
+
+.welcome-page button {
+    background: none;  
+    color: white;
+    border: 1px solid white;
+    padding: 8px 24px; 
+    font-size: 16px; 
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+   
+}
+
+.welcome-page button:hover {
+    background-color: #ffffff;
+    color: black;
+}
+
+@media screen and (max-width: 768px) {
+    .welcome-page {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        height:60vh;
+        position: relative;
+        bottom: 0px;
+    }
+    .welcome-page h1 {
+        font-size: 32px; 
+        margin-bottom: 20px;
+    }
+    .welcome-page p {
+        font-size: 19px;
+        margin-bottom: 20px;
+    }
+    .welcome-page .content {
+        margin:0px;
+    }
+}

@@ -1,0 +1,115 @@
+.shopnow-2 {
+    color: #257C7C;
+    font-size:56px;
+    text-align: center;
+    margin-bottom: var(--margin-bottom-large);
+    margin-top: var(--margin-top-large);
+}
+
+.shopnow-3 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    margin-top:190px;
+    margin-bottom:90px;
+}
+
+.shopnow-center {
+    transition: transform 0.3s ease;
+    height: 600px;
+    margin-top: 60px;
+    position: relative;
+   
+    max-width: 100%;
+}
+
+.shopNowBtn {
+    display: flex;
+    justify-content: center;
+    margin-top: var(--margin-top-large);
+    margin-bottom: 50px;
+}
+
+.shopNowBtn button {
+    background-color: #BADA55;
+    padding: 20px;
+    width: var(--button-width-large);
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.shopNowBtn button:hover {
+    background-color: #7d9237;
+}
+.shopnow-bowl{
+    transform: rotate(20deg);
+}
+.shopnow-bowl2{
+    transform: rotate(-20deg);
+    position: relative;
+    left:30px;
+}
+
+@media screen and (max-width: 768px) {
+    .shopnow-2 {
+        font-size: 32px;
+        margin-top: var(--margin-top-small);
+        margin-bottom:0px;
+    }
+
+    .shopnow-bowl, .shopnow-bowl2 {
+        height: 110px;
+        max-width: 100%;
+    }
+
+    .shopnow-bowl {
+       position: relative;
+       left: 20px;
+       bottom:30px;
+    }
+
+    .shopnow-splash {
+        margin-left: 0;
+        max-width: 100%;
+        top:20px;
+    }
+
+    .shopnow-splash2 {
+        right: 90px;
+        max-width: 100%;
+    }
+
+    .shopnow-bowl2 {
+        right: 0;
+        left:0px;
+        max-width: 100%;
+        margin-left:20px;
+    }
+
+    .shopnow-center {
+      display: none; }
+
+    .shopNowBtn button {
+        width: var(--button-width-small);
+    }
+
+    .shopnow-splash, .shopnow-splash2 {
+        height: var(--splash-height-small);
+        max-width: 100%;
+    }
+
+    .shopnow-splash2 {
+        position: relative;
+        right: 0;
+        max-width: 100%;
+    }
+    .shopnow-3{
+        margin-left:20px;
+        margin-top:0px;
+        margin-bottom:30px;
+    }
+}

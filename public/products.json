@@ -1,0 +1,59 @@
+[
+  {
+    "id": "1",
+    "name": "Exotic Wellness Elixir Bowl",
+    "img": "/product1.webp",
+    "variants": [
+      {
+        "weight": "500g",
+        "price": 500
+      },
+      {
+        "weight": "1kg",
+        "price": 950
+      },
+      {
+        "weight": "2kg",
+        "price": 1800
+      }
+    ]
+  },
+  {
+    "id": "2",
+    "name": "Earth's Bounty Bowl",
+    "img": "/product2.webp",
+    "variants": [
+      {
+        "weight": "500g",
+        "price": 500
+      },
+      {
+        "weight": "1kg",
+        "price": 950
+      },
+      {
+        "weight": "2kg",
+        "price": 1800
+      }
+    ]
+  },
+  {
+    "id": "3",
+    "name": "Flavor burst bowl",
+    "img": "/product3.webp",
+    "variants": [
+      {
+        "weight": "500g",
+        "price": 500
+      },
+      {
+        "weight": "1kg",
+        "price": 950
+      },
+      {
+        "weight": "2kg",
+        "price": 1800
+      }
+    ]
+  }
+]

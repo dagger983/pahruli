@@ -1,0 +1,282 @@
+.shop-product-view {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 60px;
+}
+
+.product-container {
+  display: flex;
+}
+
+.similar-products-list {
+  display: flex;
+}
+
+.shop-product-image {
+  height: 600px;
+  margin-right: 100px;
+}
+
+.arrow-show {
+  margin-top: 30px;
+  margin-left: 20px;
+}
+
+.back-btn {
+  margin-top: 30px;
+  margin-left: 20px;
+  padding: 10px;
+  width: 100px;
+  border: none;
+  cursor: pointer;
+  background-color: rgb(19, 97, 60);
+  color: white;
+}
+
+.add-to-cart-button {
+  padding: 10px;
+  width: 200px;
+  border: none;
+  background-color: #BADA55;;
+  color: white;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.buy-now-button {
+  padding: 10px;
+  width: 200px;
+  border: none;
+  background-color: #257C7C;
+  color: white;
+  cursor: pointer;
+}
+
+.design-shoba {
+  height: 1px;
+  width: 100%;
+  background-color: rgb(19, 97, 60);
+}
+
+.loader-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.similar-product-card {
+
+  margin: 30px;
+  height: 100%;
+  width: 300px;
+  padding: 30px;
+  border: 1px solid black;
+  text-align: center;
+}
+
+.similar-product-image {
+  height: 250px;
+  width: 250px;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+.similar-products {
+  display: flex;
+  justify-content: center;
+}
+
+.similar-head {
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 56px;
+  color: #333333;
+  margin-top: 30px;
+  cursor: pointer;
+}
+
+.product-page-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.product-container {
+  display: flex;
+  gap: 20px;
+}
+
+.product-info {
+  flex: 1;
+}
+
+.quantity-section,
+.weight-section,
+.subscription-section {
+  margin-top: 20px;
+}
+
+button {
+  cursor: pointer;
+}
+
+.weight-section button {
+  margin-top: 10px;
+  margin-right: 20px;
+  padding: 10px;
+}
+
+.add-to-cart-button {
+  background-color: black;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+
+.similar-product-card {
+  margin-top: 20px;
+  border-radius:24px;
+  border:1px solid #257C7C;
+
+}
+
+.similar-product-image {
+  cursor: pointer;
+}
+
+.similar-head {
+  margin-top: 40px;
+}
+
+.date-picker-container {
+  margin-top: 10px;
+}
+
+.date-picker-container p {
+  margin-bottom: 5px;
+  font-size: 16px;
+}
+
+.day-selection,
+.date-selection,
+.date-picker-container {
+  margin-top: 20px;
+}
+
+.day-selection label,
+.date-selection label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.submit-button {
+  padding: 10px;
+  width: 100px;
+  margin-top: 20px;
+  border: none;
+  background-color: rgb(19, 97, 60);
+  color: white;
+}
+
+.quantity-section button {
+  padding: 5px;
+  width: 30px;
+  background-color: rgb(19, 97, 60);
+  color: white;
+  border: none;
+  margin-top: 10px;
+  margin-right: 10px;
+}
+
+.quantity-section input {
+  padding: 5px;
+  width: 50px;
+  text-align: center;
+}
+.weight-section button {
+  background-color: rgb(19, 97, 60);
+  color: white;
+  border: none;
+  padding: 10px 20px; 
+  cursor: pointer; 
+  transition: background-color 0.3s ease; 
+}
+
+.weight-section button:hover {
+  background-color: rgb(29, 117, 80); 
+}
+
+.weight-section button:active {
+  background-color: rgb(5, 25, 16); 
+}
+
+.weight-section button.active {
+  background-color: rgb(13, 60, 39); 
+}
+
+.subscription-button{
+  background-color: rgb(19, 97, 60);
+  color: white;
+  border: none;
+  padding: 10px 20px; 
+  cursor: pointer; 
+  transition: background-color 0.3s ease; 
+  margin-right:20px;
+}
+
+
+.subscription-button:hover {
+  background-color: rgb(29, 117, 80); 
+}
+
+.subscription-button:active {
+  background-color: rgb(5, 25, 16); 
+}
+
+.subscription-section button.active {
+  background-color: rgb(13, 60, 39); 
+}
+
+.date-selection p,
+.day-selection p{
+  margin-bottom:10px;
+}
+
+
+@media screen and (max-width:768px) {
+  .product-container {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .shop-product-image {
+    height: 100%;
+    width: 300px;
+    margin-right: 0px;
+    margin-bottom: 50px;
+  }
+
+  .similar-products{
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .similar-head {
+    font-size: 32px;
+  }
+
+  .add-to-cart-button {
+    margin-bottom: 20px;
+  }
+  .similar-products-list {
+    display: flex;
+    flex-direction: column;
+  }
+  
+}

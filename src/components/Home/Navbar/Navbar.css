@@ -1,0 +1,71 @@
+.pahruli-pc-navbar{
+    position: sticky;
+    position: -webkit-sticky;
+    z-index:9999;
+    top: 0; 
+}
+
+
+.pahruli-navbar-main {
+    background-color: #BADA55;
+    height: 300px;
+    position: relative;
+    bottom: 30px;
+}
+
+.pahruli-logo {
+    height: 180px;
+    margin-top:30px;
+    margin-left:30px;
+}
+
+.pahruli-navbar {
+    display: flex;
+    justify-content: space-between;
+    background-color: white;
+    margin: 30px;
+    height:230px;
+}
+
+.pahruli-navbar2 {
+    display: flex;
+}
+
+.pahruli-navbar2 p {
+    margin-right: 20px;
+    cursor: pointer
+}
+
+.pahruli-navbar2 p:hover{
+    color: #748833;
+}
+
+.pahruli-navbar3 {
+    margin-top: 30px;
+}
+
+.contact-num p {
+    font-weight: bold;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.contact-num {
+    background-color: #13613C;
+    width: 250px;
+    padding: 10px;
+    color: white;
+    text-align: center;
+    margin-bottom: 30px;
+    cursor: pointer;
+    margin-top:20px;
+}
+
+.cart-icon {
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 40px;
+    margin-bottom: 20px;
+    
+}
+

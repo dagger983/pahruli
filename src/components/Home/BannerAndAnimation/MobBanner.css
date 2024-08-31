@@ -1,0 +1,84 @@
+.MobBanner-main{
+    background-color: #107070;
+    height: 100%;
+    margin-top:40px;
+}
+
+.MobBanner1 img{
+    width:100vw;
+  
+}
+.MobBanner2 img{
+    height:100%;
+    width:50vw;
+    position: relative;
+    bottom:5px;
+}
+.MobBanner2{
+    display:flex;
+    justify-content: center;
+}
+
+.MobBadham img{
+    height:35px;
+    animation: rotate-center 15s linear infinite both;
+    z-index:998;
+} 
+.MobBadham{
+    position: relative;
+    left:50px;
+    top:20px;
+}
+.MobCashew{
+    position: relative;
+    right:50px;
+    bottom:20px;
+}
+.MobBowl img{
+    height:250px;
+    animation: rotate-center 15s linear infinite both;
+}
+.MobCashew img{
+    height:35px;
+    animation: rotate-center 15s linear infinite both;
+     z-index:999;
+}
+.MobBanner3{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.MobBadham img:nth-child(odd) {
+    position: relative;
+    left:50px;
+    bottom:20px;
+}
+.MobCashew img:nth-child(odd) {
+    position: relative;
+    right:50px;
+    top:30px;
+}
+@-webkit-keyframes rotate-center {
+    0% {
+        -webkit-transform: rotate(0);
+        transform: rotate(0);
+    }
+
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes rotate-center {
+    0% {
+        -webkit-transform: rotate(0);
+        transform: rotate(0);
+    }
+
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
