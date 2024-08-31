@@ -39,7 +39,7 @@ const Footer = () => {
       <div className="footer-snd">
         <p>© {currentYear} All Rights Reserved By Pahruli Foods Private Limited</p>
       </div>
-      
+    
     </>
   );
 };
