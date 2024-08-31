@@ -53,6 +53,7 @@ const PCNavbar = ({ onCartClick }) => {
                 </Link>
               )}
             </div>
+            
           </div>
         </div>
       </div>
