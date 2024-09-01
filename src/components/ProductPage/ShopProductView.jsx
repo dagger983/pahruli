@@ -230,7 +230,8 @@ const ShopProductView = ({ addToCart }) => {
                     </button>
                   </div>
                   <div className="weight-section">
-                    <p>Select Weight</p>
+                    <p>Select Weight</p> 
+                    <br />
                     {product.variants.map((variant) => (
                       <button
                         key={variant.weight}
@@ -245,6 +246,7 @@ const ShopProductView = ({ addToCart }) => {
                   </div>
                   <div className="subscription-section">
                     <p>Select Subscription Type:</p>
+                    <br />
                     <button
                       onClick={() => handleSubscriptionTypeChange("weekly")}
                       className={`subscription-button ${
