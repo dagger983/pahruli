@@ -23,15 +23,12 @@ function App() {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [cartItems, setCartItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [username, setUsername] = useState(null);
 
   useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
 
     window.addEventListener('resize', handleResize);
-    handleResize();
+    handleResize(); // Set initial value
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
@@ -45,50 +42,44 @@ function App() {
   }, [cartItems]);
 
   useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
+    const timer = setTimeout(() => setIsLoading(false), 1000);
+    return () => clearTimeout(timer); // Cleanup timeout
   }, []);
 
   const openCart = () => setIsCartOpen(true);
   const closeCart = () => setIsCartOpen(false);
 
   const addToCart = (product, quantity, selectedWeight, subscriptionType, subscriptionDetails) => {
-    setCartItems((prevItems) => {
-      const existingItem = prevItems.find((i) => i.id === product.id && i.selectedWeight === selectedWeight);
+    setCartItems(prevItems => {
+      const existingItem = prevItems.find(i => i.id === product.id && i.selectedWeight === selectedWeight);
       if (existingItem) {
-        return prevItems.map((i) =>
+        return prevItems.map(i =>
           i.id === product.id && i.selectedWeight === selectedWeight
-            ? { ...i, quantity: i.quantity + quantity }
+            ? { ...i, quantity: i.quantity + quantity, subscriptionType, subscriptionDetails }
             : i
         );
       }
       return [
         ...prevItems,
-        {
-          ...product,
-          quantity,
-          selectedWeight,
-          subscriptionType,
-          subscriptionDetails
-        }
+        { ...product, quantity, selectedWeight, subscriptionType, subscriptionDetails }
       ];
     });
-
+  
     if (isMobile) {
       alert(`Product "${product.name}" added successfully!`);
     } else {
       openCart();
     }
   };
+  
 
-  const removeFromCart = (itemId) => {
-    setCartItems((prevItems) => prevItems.filter((item) => item.id !== itemId));
+  const removeFromCart = (itemId, weight) => {
+    setCartItems(prevItems => prevItems.filter(item => !(item.id === itemId && item.selectedWeight === weight)));
   };
 
   const updateQuantity = (itemId, newQuantity) => {
-    setCartItems((prevItems) =>
-      prevItems.map((item) =>
+    setCartItems(prevItems =>
+      prevItems.map(item =>
         item.id === itemId ? { ...item, quantity: newQuantity } : item
       )
     );
@@ -122,12 +113,36 @@ function App() {
         />
       )}
       <Routes>
-        <Route path="/" element={<>{renderNavbar()}<Welcome /><ShopNow />{isMobile ? <MobBanner /> : <PCBanner />}<RoundSlider /><Footer /></>} />
-        <Route path="/products" element={<>{renderNavbar()}<Products addToCart={addToCart} /></>} />
-        <Route path="/about-us" element={<>{renderNavbar()}<About /></>} />
-        <Route path="/contact" element={<>{renderNavbar()}<Contact /></>} />
-        <Route path="/shop-product/:productId" element={<>{renderNavbar()}<ShopProductView addToCart={addToCart} /></>} />
-        <Route path="/mob-cart" element={<MobCart cartItems={cartItems} removeFromCart={removeFromCart} updateQuantity={updateQuantity} onClose={closeCart} />} />
+        <Route path="/" element={<>
+          {renderNavbar()}
+          <Welcome />
+          <ShopNow />
+          {isMobile ? <MobBanner /> : <PCBanner />}
+          <RoundSlider />
+          <Footer />
+        </>} />
+        <Route path="/products" element={<>
+          {renderNavbar()}
+          <Products addToCart={addToCart} />
+        </>} />
+        <Route path="/about-us" element={<>
+          {renderNavbar()}
+          <About />
+        </>} />
+        <Route path="/contact" element={<>
+          {renderNavbar()}
+          <Contact />
+        </>} />
+        <Route path="/shop-product/:productId" element={<>
+          {renderNavbar()}
+          <ShopProductView addToCart={addToCart} />
+        </>} />
+        <Route path="/mob-cart" element={<MobCart
+          cartItems={cartItems}
+          removeFromCart={removeFromCart}
+          updateQuantity={updateQuantity}
+          onClose={closeCart}
+        />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
       </Routes>

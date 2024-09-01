@@ -20,7 +20,7 @@ const PCNavbar = ({ onCartClick }) => {
           <div className="pahruli-navbar3">
             <div className="contact-num">
               <a href="tel:+919791522333">
-                <p>Contact :</p>
+                <p>Contact : +919791522333</p>
               </a>
             </div>
             <div className="cart-icon">

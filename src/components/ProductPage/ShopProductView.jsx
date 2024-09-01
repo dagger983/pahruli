@@ -1,8 +1,11 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { RotatingLines } from "react-loader-spinner";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Modal from 'react-modal';
 import "./ShopProductView.css";
 import Footer from "../Footer/Footer";
 import { Link } from "react-router-dom";
@@ -35,22 +38,21 @@ const ShopProductView = ({ addToCart }) => {
   const [error, setError] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [selectedWeight, setSelectedWeight] = useState("500g");
-  const [activeWeight, setActiveWeight] = useState("500g");
   const [subscriptionType, setSubscriptionType] = useState("weekly");
   const [subscriptionDates, setSubscriptionDates] = useState([null, null]);
-  const [selectedDays, setSelectedDays] = useState([]);
   const [submitButtonVisible, setSubmitButtonVisible] = useState(true);
-  const [calendarVisible, setCalendarVisible] = useState(true);
+  const [shippingDetails, setShippingDetails] = useState({
+    address: "",
+    city: "",
+    state: "",
+    zip: ""
+  });
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
 
-  const isNotSunday = (date) => {
-    const day = date.getDay();
-    return day !== 0; // 0 is Sunday
-  };
+  const isNotSunday = (date) => date.getDay() !== 0; // 0 is Sunday
 
-  const handleButtonClick = (weight) => {
-    setActiveWeight(weight);
-  };
+  const handleButtonClick = (weight) => setSelectedWeight(weight);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -87,7 +89,6 @@ const ShopProductView = ({ addToCart }) => {
     addToCart(product, quantity, selectedWeight, subscriptionType, {
       subscriptionStartDate: subscriptionDates[0],
       subscriptionEndDate: subscriptionDates[1],
-      selectedDays,
     });
   }, [
     product,
@@ -95,11 +96,10 @@ const ShopProductView = ({ addToCart }) => {
     selectedWeight,
     subscriptionType,
     subscriptionDates,
-    selectedDays,
     addToCart,
   ]);
 
-  const handleBuyNow = useCallback(() => {
+  const handleBuyNow = () => {
     const user = JSON.parse(localStorage.getItem("user"));
 
     if (!user || !user.username || !user.mobile) {
@@ -108,6 +108,12 @@ const ShopProductView = ({ addToCart }) => {
       return;
     }
 
+    setIsModalOpen(true); // Open the modal
+  };
+
+  const handleSubmitAddress = (event) => {
+    event.preventDefault(); // Prevent form from reloading the page
+    const user = JSON.parse(localStorage.getItem("user"));
     const currentPageURL = window.location.href;
 
     let message = `Username: ${user.username}\n`;
@@ -117,9 +123,7 @@ const ShopProductView = ({ addToCart }) => {
     message += `Weight: ${selectedWeight}\n`;
     message += `Subscription Type: ${subscriptionType}\n`;
 
-    if (subscriptionType === "weekly") {
-      message += `Subscription Days: ${selectedDays.join(", ")}\n`;
-    } else if (
+    if (
       subscriptionType === "monthly" ||
       subscriptionType === "customize"
     ) {
@@ -128,53 +132,31 @@ const ShopProductView = ({ addToCart }) => {
         subscriptionDates[1]
       );
       message += `Subscription Dates: ${subscriptionDates[0].toLocaleDateString()} to ${subscriptionDates[1].toLocaleDateString()}\n`;
-      message += `Number of Days: ${numberOfDays}\n`;
     }
 
     message += `Page URL: ${currentPageURL}\n`;
+    message += `Delivery Address: ${shippingDetails.address}\n`;
+    message += `City: ${shippingDetails.city}\n`;
+    message += `State: ${shippingDetails.state}\n`;
+    message += `ZIP: ${shippingDetails.zip}\n`;
 
     const whatsappNumber = "6384311620";
     const encodedMessage = encodeURIComponent(message);
     const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
 
     window.open(whatsappURL, "_blank");
-    window.location.reload();
-  }, [
-    product,
-    quantity,
-    selectedWeight,
-    subscriptionType,
-    subscriptionDates,
-    selectedDays,
-    navigate,
-  ]);
+
+    toast.success("Your order has been placed successfully!");
+    setIsModalOpen(false); 
+  };
 
   const handleSubmitSubscription = () => {
-    console.log("Subscription Submitted", {
-      product,
-      quantity,
-      selectedWeight,
-      subscriptionType,
-      subscriptionDates,
-      selectedDays,
-    });
     setSubmitButtonVisible(false);
-    setCalendarVisible(false);
-    alert(
-      "All set! Click 'Buy Now' to complete your purchase and enjoy your new item."
-    );
+    toast.success("All Set! Click Buy Now to Make it Yours");
   };
 
   const handleQuantityChange = (delta) => {
     setQuantity((prevQuantity) => Math.max(1, prevQuantity + delta));
-  };
-
-  const toggleDaySelection = (day) => {
-    setSelectedDays((prevDays) =>
-      prevDays.includes(day)
-        ? prevDays.filter((d) => d !== day)
-        : [...prevDays, day]
-    );
   };
 
   const handleDateRangeChange = (dates) => {
@@ -183,7 +165,7 @@ const ShopProductView = ({ addToCart }) => {
 
   const handleSubscriptionTypeChange = (type) => {
     setSubscriptionType(type);
-    if (type !== "weekly") {
+    if (type === "weekly") {
       setSubscriptionDates([new Date(), new Date()]);
     }
   };
@@ -252,7 +234,7 @@ const ShopProductView = ({ addToCart }) => {
                     {product.variants.map((variant) => (
                       <button
                         key={variant.weight}
-                        onClick={() => setSelectedWeight(variant.weight)}
+                        onClick={() => handleButtonClick(variant.weight)}
                         className={
                           selectedWeight === variant.weight ? "active" : ""
                         }
@@ -262,12 +244,12 @@ const ShopProductView = ({ addToCart }) => {
                     ))}
                   </div>
                   <div className="subscription-section">
-                    <p>Subscription</p>
+                    <p>Select Subscription Type:</p>
                     <button
                       onClick={() => handleSubscriptionTypeChange("weekly")}
                       className={`subscription-button ${
                         subscriptionType === "weekly" ? "active" : ""
-                      } additional-classname`}
+                      }`}
                     >
                       Weekly
                     </button>
@@ -275,65 +257,35 @@ const ShopProductView = ({ addToCart }) => {
                       onClick={() => handleSubscriptionTypeChange("monthly")}
                       className={`subscription-button ${
                         subscriptionType === "monthly" ? "active" : ""
-                      } additional-classname`}
+                      }`}
                     >
                       Monthly
                     </button>
                     <button
-                      onClick={() =>
-                        handleSubscriptionTypeChange("customize")
-                      }
+                      onClick={() => handleSubscriptionTypeChange("customize")}
                       className={`subscription-button ${
                         subscriptionType === "customize" ? "active" : ""
-                      } additional-classname`}
+                      }`}
                     >
                       Customize
                     </button>
 
-                    {(subscriptionType === "monthly" ||
-                      subscriptionType === "customize") &&
-                      calendarVisible && (
-                        <div className="date-selection">
-                          <p>Select Subscription Dates:</p>
-                          <DatePicker
-                            selected={subscriptionDates[0]}
-                            onChange={handleDateRangeChange}
-                            startDate={subscriptionDates[0]}
-                            endDate={subscriptionDates[1]}
-                            selectsRange
-                            inline
-                            dateFormat="dd/MM/yyyy"
-                            minDate={minDate}
-                            showYearDropdown={subscriptionType === "customize"}
-                            scrollableYearDropdown={subscriptionType === "customize"}
-                            filterDate={isNotSunday} // Add this prop to disable Sundays
-                          />
-                        </div>
-                      )}
-
-                    {subscriptionType === "weekly" && (
-                      <div className="day-selection">
-                        <p>Select Days of the Week:</p>
-                        {[
-                          "Monday",
-                          "Tuesday",
-                          "Wednesday",
-                          "Thursday",
-                          "Friday",
-                          "Saturday",
-                        ].map((day) => (
-                          <label key={day} style={{ cursor: "pointer" }}>
-                            <input
-                              style={{ marginRight: "10px", cursor: "pointer" }}
-                              type="checkbox"
-                              checked={selectedDays.includes(day)}
-                              onChange={() => toggleDaySelection(day)}
-                            />
-                            {day}
-                          </label>
-                        ))}
-                      </div>
-                    )}
+                    <div className="date-selection">
+                      <p>Select Subscription Dates:</p>
+                      <DatePicker
+                        selected={subscriptionDates[0]}
+                        onChange={handleDateRangeChange}
+                        startDate={subscriptionDates[0]}
+                        endDate={subscriptionDates[1]}
+                        selectsRange
+                        inline
+                        dateFormat="dd/MM/yyyy"
+                        minDate={minDate}
+                        showYearDropdown={subscriptionType === "customize"}
+                        scrollableYearDropdown={subscriptionType === "customize"}
+                        filterDate={isNotSunday}
+                      />
+                    </div>
                   </div>
                   {submitButtonVisible && (
                     <button
@@ -343,6 +295,9 @@ const ShopProductView = ({ addToCart }) => {
                       Submit
                     </button>
                   )}
+                  <div>
+                    <p style={{marginTop:"20px",color:"red"}}>Information : We Don't Provide Any Products on Sunday</p>
+                  </div>
                   <div className="buttons">
                     <button
                       onClick={handleAddToCart}
@@ -388,6 +343,8 @@ const ShopProductView = ({ addToCart }) => {
                 </div>
               </div>
             )}
+
+            <ToastContainer />
           </>
         ) : (
           <p>Product not found</p>
@@ -395,7 +352,68 @@ const ShopProductView = ({ addToCart }) => {
       </div>
       <br />
       <br />
+      <br />
       <Footer />
+
+      <Modal
+        isOpen={isModalOpen}
+        onRequestClose={() => setIsModalOpen(false)}
+        contentLabel="Shipping Details"
+        className="modal"
+        overlayClassName="modal-overlay"
+      >
+        <h3>Enter Shipping Details</h3>
+        <div className="modal-style">
+          <form onSubmit={handleSubmitAddress}>
+            <label>
+              <input
+                type="text"
+                placeholder="Door No and Street"
+                required
+                value={shippingDetails.address}
+                onChange={(e) =>
+                  setShippingDetails({ ...shippingDetails, address: e.target.value })
+                }
+              />
+            </label> <br />
+            <label>
+              <input
+                type="text"
+                value={shippingDetails.city}
+                required
+                placeholder="City"
+                onChange={(e) =>
+                  setShippingDetails({ ...shippingDetails, city: e.target.value })
+                }
+              />
+            </label> <br />
+            <label>
+              <input
+                type="text"
+                value={shippingDetails.state}
+                placeholder="State"
+                required
+                onChange={(e) =>
+                  setShippingDetails({ ...shippingDetails, state: e.target.value })
+                }
+              />
+            </label> <br />
+            <label>
+              <input
+                type="text"
+                value={shippingDetails.zip}
+                placeholder="Pincode"
+                required
+                onChange={(e) =>
+                  setShippingDetails({ ...shippingDetails, zip: e.target.value })
+                }
+              /> <br />
+            </label>
+            <button type="submit">Submit Address</button>
+            <button type="button" onClick={() => setIsModalOpen(false)}>Close</button>
+          </form>
+        </div>
+      </Modal>
     </>
   );
 };

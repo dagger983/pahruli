@@ -38,7 +38,8 @@
   padding: 10px;
   width: 200px;
   border: none;
-  background-color: #BADA55;;
+  background-color: #BADA55;
+  ;
   color: white;
   cursor: pointer;
   margin-right: 10px;
@@ -140,8 +141,8 @@ button {
 
 .similar-product-card {
   margin-top: 20px;
-  border-radius:24px;
-  border:1px solid #257C7C;
+  border-radius: 24px;
+  border: 1px solid #257C7C;
 
 }
 
@@ -198,53 +199,54 @@ button {
   width: 50px;
   text-align: center;
 }
+
 .weight-section button {
   background-color: rgb(19, 97, 60);
   color: white;
   border: none;
-  padding: 10px 20px; 
-  cursor: pointer; 
-  transition: background-color 0.3s ease; 
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .weight-section button:hover {
-  background-color: rgb(29, 117, 80); 
+  background-color: rgb(29, 117, 80);
 }
 
 .weight-section button:active {
-  background-color: rgb(5, 25, 16); 
+  background-color: rgb(5, 25, 16);
 }
 
 .weight-section button.active {
-  background-color: rgb(13, 60, 39); 
+  background-color: rgb(13, 60, 39);
 }
 
-.subscription-button{
+.subscription-button {
   background-color: rgb(19, 97, 60);
   color: white;
   border: none;
-  padding: 10px 20px; 
-  cursor: pointer; 
-  transition: background-color 0.3s ease; 
-  margin-right:20px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-right: 20px;
 }
 
 
 .subscription-button:hover {
-  background-color: rgb(29, 117, 80); 
+  background-color: rgb(29, 117, 80);
 }
 
 .subscription-button:active {
-  background-color: rgb(5, 25, 16); 
+  background-color: rgb(5, 25, 16);
 }
 
 .subscription-section button.active {
-  background-color: rgb(13, 60, 39); 
+  background-color: rgb(13, 60, 39);
 }
 
 .date-selection p,
-.day-selection p{
-  margin-bottom:10px;
+.day-selection p {
+  margin-bottom: 10px;
 }
 
 
@@ -262,7 +264,7 @@ button {
     margin-bottom: 50px;
   }
 
-  .similar-products{
+  .similar-products {
     flex-direction: column;
     align-items: center;
   }
@@ -274,9 +276,81 @@ button {
   .add-to-cart-button {
     margin-bottom: 20px;
   }
+
   .similar-products-list {
     display: flex;
     flex-direction: column;
   }
-  
+
 }
+
+.weekly-calendar {
+  display: flex;
+  justify-content: space-around;
+  margin: 10px 0;
+}
+
+.day {
+  padding: 10px 20px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  text-align: center;
+  border-radius: 5px;
+  width: 100px;
+}
+
+.day.selected {
+  background-color: rgb(19, 97, 60);
+  color: white;
+}
+/* ShopProductView.css */
+.modal {
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+  max-width: 500px;
+  margin: auto;
+}
+
+.modal-overlay {
+  background: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.address-input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 20px;
+}
+
+.submit-address-button, .close-modal-button {
+  margin-right: 10px;
+  padding: 10px;
+}
+
+.modal-style input{
+  margin-top:20px;
+  height:50px;
+  width:350px;
+  padding:10px;
+}
+
+
+.modal-style button{
+  padding:10px;
+  border:none;
+  cursor: pointer;
+  margin-right:20px;
+  margin-top:20px;
+  color:white;
+  background-color: #257C7C;
+}
+
+

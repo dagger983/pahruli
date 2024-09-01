@@ -1,0 +1,10 @@
+/* WeeklyCalendar.css */
+.weekly-calendar {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .weekly-calendar label {
+    margin-bottom: 5px;
+  }
+  
