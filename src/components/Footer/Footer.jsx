@@ -8,7 +8,11 @@ const Footer = () => {
     <>
       <div className="footer-main">
         <div>
-          <p style={{ color: "#107070", marginBottom: "10px", fontSize: "30px" }}>Address</p>
+          <p
+            style={{ color: "#107070", marginBottom: "10px", fontSize: "30px" }}
+          >
+            Address
+          </p>
           <h3 style={{ fontWeight: "400" }}>
             45, Royal Reed Layout, <br />
             Hulimangala Main Road,
@@ -17,29 +21,43 @@ const Footer = () => {
           </h3>
         </div>
         <div>
-          <p style={{ color: "#107070", marginBottom: "10px", fontSize: "30px" }}>Follow Us</p>
+          <p
+            style={{ color: "#107070", marginBottom: "10px", fontSize: "30px" }}
+          >
+            Follow Us
+          </p>
           <div className="social-link">
             <p>CONNECT WITH US ON SOCIAL MEDIA</p>
             <div className="social-link2">
               <img src="/fb.webp" alt="Facebook" />
-              <img src="/instagram.webp" alt="Instagram" />
+              <a href="https://www.instagram.com/pahrulifoods?igsh=dGswa2dtZzhhZ2Y3">
+                <img src="/instagram.webp" alt="Instagram" />
+              </a>
               <img src="/twitter.webp" alt="Twitter" />
             </div>
           </div>
         </div>
         <div>
-          <p style={{ color: "#107070", marginBottom: "10px", fontSize: "30px" }}>Contact</p>
+          <p
+            style={{ color: "#107070", marginBottom: "10px", fontSize: "30px" }}
+          >
+            Contact
+          </p>
           <h3 style={{ fontWeight: "400" }}>
-            <a href="tel:+91791522333" style={{ color: 'inherit', textDecoration: 'none' }}>
+            <a
+              href="tel:+919791522333"
+              style={{ color: "inherit", textDecoration: "none" }}
+            >
               Phone no : +919791522333
             </a>
           </h3>
         </div>
       </div>
       <div className="footer-snd">
-        <p>© {currentYear} All Rights Reserved By Pahruli Foods Private Limited</p>
+        <p>
+          © {currentYear} All Rights Reserved By Pahruli Foods Private Limited
+        </p>
       </div>
-    
     </>
   );
 };
