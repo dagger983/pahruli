@@ -23,7 +23,6 @@ const shuffleArray = (array) => {
   }
   return shuffled;
 };
-
 const calculateDaysBetweenDates = (startDate, endDate) => {
   if (!startDate || !endDate) return 0;
   const timeDiff = Math.abs(endDate - startDate);
@@ -108,11 +107,11 @@ const ShopProductView = ({ addToCart }) => {
       return;
     }
 
-    setIsModalOpen(true); // Open the modal
+    setIsModalOpen(true); 
   };
 
   const handleSubmitAddress = (event) => {
-    event.preventDefault(); // Prevent form from reloading the page
+    event.preventDefault();
     const user = JSON.parse(localStorage.getItem("user"));
     const currentPageURL = window.location.href;
 
@@ -298,7 +297,7 @@ const ShopProductView = ({ addToCart }) => {
                     </button>
                   )}
                   <div>
-                    <p style={{marginTop:"20px",color:"red"}}>Information : We Don't Provide Any Products on Sunday</p>
+                    <p style={{marginTop:"20px",color:"red"}}>Information : Our Service will be Only Available from to Monday to Saturday</p>
                   </div>
                   <div className="buttons">
                     <button

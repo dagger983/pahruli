@@ -1,6 +1,7 @@
 import React from 'react';
 import './MobCart.css';
 import { FaTrash } from "react-icons/fa";
+import { useNavigate } from 'react-router-dom';
 
 const MobCart = ({
   isOpen = false,
@@ -9,6 +10,8 @@ const MobCart = ({
   updateQuantity = () => {},
   onClose = () => {},
 }) => {
+  const navigate = useNavigate();
+
   // Handle quantity changes
   const handleQuantityChange = (item, change) => {
     const newQuantity = item.quantity + change;
@@ -28,7 +31,14 @@ const MobCart = ({
     <div className={`mobcart-container ${isOpen ? 'open' : ''}`} aria-hidden={!isOpen}>
       <div className="mobcart-header">
         <h2>Your Cart - {cartItems.length} items</h2>
-        <button className="close-button" onClick={onClose} aria-label="Close cart">
+        <button 
+          className="close-button" 
+          onClick={() => {
+            onClose();
+            navigate(-1);
+          }} 
+          aria-label="Close cart"
+        >
           ✕
         </button>
       </div>
