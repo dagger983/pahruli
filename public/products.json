@@ -5,17 +5,14 @@
     "img": "/product1.webp",
     "variants": [
       {
-        "weight": "500g",
-        "price": 500
+        "weight": "200g",
+        "price": 199
       },
       {
-        "weight": "1kg",
-        "price": 950
-      },
-      {
-        "weight": "2kg",
-        "price": 1800
+        "weight": "400g",
+        "price": 299
       }
+      
     ]
   },
   {
@@ -24,16 +21,12 @@
     "img": "/product2.webp",
     "variants": [
       {
-        "weight": "500g",
-        "price": 500
+        "weight": "200g",
+        "price": 99
       },
       {
-        "weight": "1kg",
-        "price": 950
-      },
-      {
-        "weight": "2kg",
-        "price": 1800
+        "weight": "400g",
+        "price": 149
       }
     ]
   },
@@ -43,16 +36,12 @@
     "img": "/product3.webp",
     "variants": [
       {
-        "weight": "500g",
-        "price": 500
+        "weight": "200g",
+        "price": 149
       },
       {
-        "weight": "1kg",
-        "price": 950
-      },
-      {
-        "weight": "2kg",
-        "price": 1800
+        "weight": "400kg",
+        "price": 249
       }
     ]
   }

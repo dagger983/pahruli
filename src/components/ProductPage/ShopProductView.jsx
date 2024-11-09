@@ -3,12 +3,12 @@ import { useParams, useNavigate } from "react-router-dom";
 import { RotatingLines } from "react-loader-spinner";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import Modal from 'react-modal';
-import "./ShopProductView.css";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Modal from "react-modal";
 import Footer from "../Footer/Footer";
 import { Link } from "react-router-dom";
+import "./ShopProductView.css";
 
 const shuffleArray = (array) => {
   const shuffled = array.slice();
@@ -44,8 +44,9 @@ const ShopProductView = ({ addToCart }) => {
     address: "",
     city: "",
     state: "",
-    zip: ""
+    zip: "",
   });
+  
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -106,48 +107,78 @@ const ShopProductView = ({ addToCart }) => {
       navigate("/login");
       return;
     }
-
-    setIsModalOpen(true); 
+    setIsModalOpen(true);
   };
 
+  const countNonSundayDays = (startDate, endDate) => {
+    let count = 0;
+    const date = new Date(startDate);
+    
+    // Ensure start date is earlier than end date
+    if (startDate > endDate) return 0;
+  
+    while (date <= endDate) {
+      if (date.getDay() !== 0) { // Exclude Sundays (0 is Sunday)
+        count++;
+      }
+      date.setDate(date.getDate() + 1);
+    }
+    return count;
+  };
   const handleSubmitAddress = (event) => {
     event.preventDefault();
+  
     const user = JSON.parse(localStorage.getItem("user"));
     const currentPageURL = window.location.href;
-
+  
+    // Find the selected variant's price
+    const selectedVariant = product.variants.find((v) => v.weight === selectedWeight);
+    const pricePerUnit = selectedVariant ? selectedVariant.price : 0;
+    
+    // Calculate eligible days
+    const eligibleDays = subscriptionType === "customize" && subscriptionDates[0] && subscriptionDates[1]
+      ? countNonSundayDays(subscriptionDates[0], subscriptionDates[1])
+      : (subscriptionType === "weekly" ? 6 : 0); // Assume 6 days for weekly subscription
+    
+    // Total price calculation
+    const totalPrice = pricePerUnit * quantity * eligibleDays;
+  
     let message = `Username: ${user.username}\n`;
     message += `Mobile: ${user.mobile}\n`;
     message += `Product: ${product.name}\n`;
     message += `Quantity: ${quantity}\n`;
     message += `Weight: ${selectedWeight}\n`;
     message += `Subscription Type: ${subscriptionType}\n`;
-
-    if (
-      subscriptionType === "monthly" ||
-      subscriptionType === "customize"
-    ) {
-      const numberOfDays = calculateDaysBetweenDates(
-        subscriptionDates[0],
-        subscriptionDates[1]
-      );
-      message += `Subscription Dates: ${subscriptionDates[0].toLocaleDateString()} to ${subscriptionDates[1].toLocaleDateString()}\n`;
+  
+    if (subscriptionType === "weekly") {
+      const startDate = new Date();
+      const endDate = new Date();
+      endDate.setDate(startDate.getDate() + 7);
+      message += `Subscription Dates: ${startDate.toLocaleDateString("en-GB")} to ${endDate.toLocaleDateString("en-GB")}\n`;
+    } else if (subscriptionType === "monthly" || subscriptionType === "customize") {
+      message += `Subscription Dates: ${subscriptionDates[0]?.toLocaleDateString("en-GB")} to ${subscriptionDates[1]?.toLocaleDateString("en-GB")}\n`;
     }
-
+  
+    // Add total price to the message
+    message += `Total Price (excluding Sundays): ₹${totalPrice}\n`;
     message += `Page URL: ${currentPageURL}\n`;
     message += `Delivery Address: ${shippingDetails.address}\n`;
     message += `City: ${shippingDetails.city}\n`;
     message += `State: ${shippingDetails.state}\n`;
     message += `ZIP: ${shippingDetails.zip}\n`;
-
+  
     const whatsappNumber = "6384311620";
     const encodedMessage = encodeURIComponent(message);
     const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
-
+  
     window.open(whatsappURL, "_blank");
-
+  
     toast.success("Your order has been placed successfully!");
-    setIsModalOpen(false); 
+    setIsModalOpen(false);
   };
+  
+  
+  
 
   const handleSubmitSubscription = () => {
     setSubmitButtonVisible(false);
@@ -166,9 +197,11 @@ const ShopProductView = ({ addToCart }) => {
     setSubscriptionType(type);
     if (type === "weekly") {
       setSubscriptionDates([new Date(), new Date()]);
+    } else if (type === "monthly" || type === "customize") {
+      setSubscriptionDates([null, null]);
     }
   };
-
+  
   const minDate = new Date();
 
   if (isLoading) {
@@ -211,9 +244,8 @@ const ShopProductView = ({ addToCart }) => {
                   <p>
                     Rs: ₹
                     {
-                      product.variants.find(
-                        (v) => v.weight === selectedWeight
-                      )?.price
+                      product.variants.find((v) => v.weight === selectedWeight)
+                        ?.price
                     }
                     /-
                   </p>
@@ -229,7 +261,7 @@ const ShopProductView = ({ addToCart }) => {
                     </button>
                   </div>
                   <div className="weight-section">
-                    <p>Select Weight</p> 
+                    <p>Select Weight</p>
                     <br />
                     {product.variants.map((variant) => (
                       <button
@@ -283,7 +315,9 @@ const ShopProductView = ({ addToCart }) => {
                         dateFormat="dd/MM/yyyy"
                         minDate={minDate}
                         showYearDropdown={subscriptionType === "customize"}
-                        scrollableYearDropdown={subscriptionType === "customize"}
+                        scrollableYearDropdown={
+                          subscriptionType === "customize"
+                        }
                         filterDate={isNotSunday}
                       />
                     </div>
@@ -297,7 +331,10 @@ const ShopProductView = ({ addToCart }) => {
                     </button>
                   )}
                   <div>
-                    <p style={{marginTop:"20px",color:"red"}}>Information : Our Service will be Only Available from to Monday to Saturday</p>
+                    <p style={{ marginTop: "20px", color: "red" }}>
+                      Information : Our Service will be Only Available from to
+                      Monday to Saturday
+                    </p>
                   </div>
                   <div className="buttons">
                     <button
@@ -328,16 +365,17 @@ const ShopProductView = ({ addToCart }) => {
                           className="similar-product-image"
                         />
                         <br />
+                        <br />
                         <h3>{item.name}</h3>
                         <br />
-                        <p>
+                        {/* <p>
                           Rs: ₹
                           {
                             item.variants.find((v) => v.weight === "500g")
                               ?.price
                           }
                           /-
-                        </p>
+                        </p> */}
                       </Link>
                     </div>
                   ))}
@@ -373,10 +411,14 @@ const ShopProductView = ({ addToCart }) => {
                 required
                 value={shippingDetails.address}
                 onChange={(e) =>
-                  setShippingDetails({ ...shippingDetails, address: e.target.value })
+                  setShippingDetails({
+                    ...shippingDetails,
+                    address: e.target.value,
+                  })
                 }
               />
-            </label> <br />
+            </label>{" "}
+            <br />
             <label>
               <input
                 type="text"
@@ -384,10 +426,14 @@ const ShopProductView = ({ addToCart }) => {
                 required
                 placeholder="City"
                 onChange={(e) =>
-                  setShippingDetails({ ...shippingDetails, city: e.target.value })
+                  setShippingDetails({
+                    ...shippingDetails,
+                    city: e.target.value,
+                  })
                 }
               />
-            </label> <br />
+            </label>{" "}
+            <br />
             <label>
               <input
                 type="text"
@@ -395,10 +441,14 @@ const ShopProductView = ({ addToCart }) => {
                 placeholder="State"
                 required
                 onChange={(e) =>
-                  setShippingDetails({ ...shippingDetails, state: e.target.value })
+                  setShippingDetails({
+                    ...shippingDetails,
+                    state: e.target.value,
+                  })
                 }
               />
-            </label> <br />
+            </label>{" "}
+            <br />
             <label>
               <input
                 type="text"
@@ -406,12 +456,18 @@ const ShopProductView = ({ addToCart }) => {
                 placeholder="Pincode"
                 required
                 onChange={(e) =>
-                  setShippingDetails({ ...shippingDetails, zip: e.target.value })
+                  setShippingDetails({
+                    ...shippingDetails,
+                    zip: e.target.value,
+                  })
                 }
-              /> <br />
+              />{" "}
+              <br />
             </label>
             <button type="submit">Submit Address</button>
-            <button type="button" onClick={() => setIsModalOpen(false)}>Close</button>
+            <button type="button" onClick={() => setIsModalOpen(false)}>
+              Close
+            </button>
           </form>
         </div>
       </Modal>

@@ -63,11 +63,9 @@ const Login = () => {
   const handleLogin = (e) => {
     e.preventDefault();
 
-    // Validate fields
     validateMobile();
     validatePassword();
 
-    // Check if there are no errors
     if (!errors.mobile && !errors.password) {
       const storedUser = JSON.parse(localStorage.getItem("user"));
 
