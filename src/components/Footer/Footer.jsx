@@ -33,7 +33,7 @@ const Footer = () => {
               <a href="https://www.instagram.com/pahrulifoods?igsh=dGswa2dtZzhhZ2Y3">
                 <img src="/instagram.webp" alt="Instagram" />
               </a>
-              <img src="/twitter.webp" alt="Twitter" />
+              <img src="/wp.png" alt="Whatsapp" />
             </div>
           </div>
         </div>
@@ -55,7 +55,7 @@ const Footer = () => {
       </div>
       <div className="footer-snd">
         <p>
-          © {currentYear} All Rights Reserved By Pahruli Foods Private Limited
+          © {currentYear} All Rights Reserved By Pahruli Foods Private Limited.Designed and Developed By <a href="https://rategle-tech.web.app/">Rategle Technologies</a> 
         </p>
       </div>
     </>

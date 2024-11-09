@@ -1,0 +1,158 @@
+/* Existing styles */
+.nav-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #a8d300;
+    color: white;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-family: Arial, sans-serif;
+    position: sticky;
+    top: 0;
+    z-index: 9999;
+}
+
+.nav-top-left {
+    flex: 1;
+}
+
+.nav-top-right {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.update-location {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+/* Modal overlay */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+}
+
+/* Modal content */
+.modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 300px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.modal-content h3 {
+    margin-top: 0;
+    font-size: 18px;
+}
+
+.modal-content input {
+    width: 100%;
+    padding: 8px;
+    margin: 10px 0;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.modal-content button {
+    padding: 8px 12px;
+    margin: 5px;
+    font-size: 14px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.modal-content button:first-of-type {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.modal-content button:last-of-type {
+    background-color: #ccc;
+    color: black;
+}
+
+/* Responsive Styles */
+
+/* Tablet view */
+@media (max-width: 768px) {
+    .nav-top {
+        flex-direction: column;
+        text-align: center;
+        padding: 8px 10px;
+        font-size: 13px;
+    }
+
+    .modal-content {
+        width: 90%;
+        padding: 15px;
+    }
+
+    .modal-content h3 {
+        font-size: 16px;
+    }
+
+    .modal-content button {
+        font-size: 13px;
+        padding: 7px 10px;
+    }
+}
+
+/* Mobile view */
+@media (max-width: 480px) {
+    .nav-top {
+        flex-direction: column;
+        padding: 8px;
+        font-size: 12px;
+        line-height: 1.4;
+    }
+
+    .nav-top-left {
+        margin-bottom: 5px;
+    }
+
+    .nav-top-right {
+        flex-direction: column;
+        align-items: center;
+        gap: 3px;
+    }
+
+    .update-location {
+        display: inline-block;
+        margin-top: 5px;
+        font-size: 12px;
+    }
+
+    /* Modal adjustments for mobile */
+    .modal-content {
+        width: 95%;
+        padding: 12px;
+    }
+
+    .modal-content h3 {
+        font-size: 15px;
+    }
+
+    .modal-content input {
+        padding: 6px;
+        font-size: 12px;
+    }
+
+    .modal-content button {
+        font-size: 12px;
+        padding: 6px 8px;
+    }
+}

@@ -17,6 +17,7 @@ import MobCart from './components/Cart/MobCart';
 import ShopProductView from './components/ProductPage/ShopProductView';
 import Login from './components/Login&Register/Login';
 import Register from './components/Login&Register/Register';
+import NavTop from './components/Home/NavTop/NavTop';
 
 function App() {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
@@ -114,6 +115,7 @@ function App() {
       )}
       <Routes>
         <Route path="/" element={<>
+        <NavTop/>
           {renderNavbar()}
           <Welcome />
           <ShopNow />
@@ -122,18 +124,22 @@ function App() {
           <Footer />
         </>} />
         <Route path="/products" element={<>
+          <NavTop/>
           {renderNavbar()}
           <Products addToCart={addToCart} />
         </>} />
         <Route path="/about-us" element={<>
+          <NavTop/>
           {renderNavbar()}
           <About />
         </>} />
         <Route path="/contact" element={<>
+          <NavTop/>
           {renderNavbar()}
           <Contact />
         </>} />
         <Route path="/shop-product/:productId" element={<>
+          <NavTop/>
           {renderNavbar()}
           <ShopProductView addToCart={addToCart} />
         </>} />
